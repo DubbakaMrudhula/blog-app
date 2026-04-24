@@ -11,6 +11,16 @@ userApp.get("/articles", verifyToken("USER"), async (req, res) => {
   res.status(200).json({ message: "artciles", payload: articlesList });
 });
 
+//Read single article by ID
+userApp.get("/article/:id", verifyToken("USER"), async (req, res) => {
+  const articleId = req.params.id;
+  const article = await ArticleModel.findOne({ _id: articleId, isArticleActive: true }).populate("comments.user");
+  if (!article) {
+    return res.status(404).json({ message: "Article not found" });
+  }
+  res.status(200).json({ message: "article", payload: article });
+});
+
 //Add comment to an article
 userApp.put("/articles", verifyToken("USER"), async (req, res) => {
   //get body from req
