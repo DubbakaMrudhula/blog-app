@@ -43,7 +43,7 @@ function EditArticle() {
     //add articleId to modified article
     modifiedArticle.articleId=article._id;
     //make PUT req to update article
-    let res=await axios.put("http://localhost:5000/author-api/articles",
+    let res=await axios.put(import.meta.env.VITE_BACKEND_URL + "/author-api/articles",
       modifiedArticle,
       {withCredentials:true})
     //naviagte to articleById component
