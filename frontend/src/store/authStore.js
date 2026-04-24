@@ -1,6 +1,14 @@
 import { create } from "zustand";
 import axios from "axios";
 
+const extractError = (err, defaultMsg) => {
+  let msg = err.response?.data?.message || err.response?.data?.error || err.message || defaultMsg;
+  if (typeof msg === 'object') {
+    return msg.message || JSON.stringify(msg);
+  }
+  return msg;
+};
+
 export const useAuth = create((set) => ({
   currentUser: null,
   loading: false,
@@ -29,7 +37,7 @@ export const useAuth = create((set) => ({
         isAuthenticated: false,
         currentUser: null,
         //error: err,
-        error: err.response?.data?.message || err.response?.data?.error || err.message || "Login failed",
+        error: extractError(err, "Login failed"),
       });
     }
   },
@@ -52,7 +60,7 @@ export const useAuth = create((set) => ({
         loading: false,
         isAuthenticated: false,
         currentUser: null,
-        error: err.response?.data?.message || err.response?.data?.error || err.message || "Logout failed",
+        error: extractError(err, "Logout failed"),
       });
     }
   },
