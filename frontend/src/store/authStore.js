@@ -67,14 +67,25 @@ export const useAuth = create((set) => ({
   // restore login
   checkAuth: async () => {
     try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      if (!backendUrl) {
+        console.error("VITE_BACKEND_URL is not set!");
+        set({ loading: false, isAuthenticated: false, currentUser: null });
+        return;
+      }
       set({ loading: true });
-      const res = await axios.get(import.meta.env.VITE_BACKEND_URL + "/auth/check-auth", { withCredentials: true });
+      const res = await axios.get(backendUrl + "/auth/check-auth", { withCredentials: true });
 
-      set({
-        currentUser: res.data.payload,
-        isAuthenticated: true,
-        loading: false,
-      });
+      // Validate that response has actual user data
+      if (res.data?.payload && res.data?.message === "authenticated") {
+        set({
+          currentUser: res.data.payload,
+          isAuthenticated: true,
+          loading: false,
+        });
+      } else {
+        set({ currentUser: null, isAuthenticated: false, loading: false });
+      }
     } catch (err) {
       // If user is not logged in → do nothing
       if (err.response?.status === 401) {
@@ -88,7 +99,7 @@ export const useAuth = create((set) => ({
 
       // other errors
       console.error("Auth check failed:", err);
-      set({ loading: false });
+      set({ loading: false, isAuthenticated: false, currentUser: null });
     }
   },
 }));
