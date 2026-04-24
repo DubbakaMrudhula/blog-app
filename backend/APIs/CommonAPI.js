@@ -27,13 +27,17 @@ commonApp.post("/users", upload.single("profileImageUrl"), async (req, res, next
     }
 
     //Upload image to cloudinary from memoryStorage
-    if (req.file) {
-      cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+    if (req.file && process.env.CLOUDINARY_CLOUD_NAME) {
+      try {
+        cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+      } catch (uploadErr) {
+        console.log("Cloudinary upload failed, continuing without image:", uploadErr.message);
+      }
     }
 
     // console.log("cloudinaryResult", cloudinaryResult);
     //add CDN link(secure_url) of image to newUserObj
-    newUser.profileImageUrl = cloudinaryResult?.secure_url;
+    newUser.profileImageUrl = cloudinaryResult?.secure_url || undefined;
 
     //run validators manually
     //hash password and replace plain with hashed one

@@ -1,17 +1,19 @@
 ### Register User
+
 POST http://localhost:4000/auth/users
 Content-Type: application/json
 
 {
-  "firstName": "",
-  "lastName": "",
-  "email": "user112377@mail.com",
+  "firstName": "user",
+  "lastName": "1",
+  "email": "user1@mail.com",
   "role":"USER",
-  "password": "",
+  "password": "user1",
   "profileImageUrl": "https://example.com/avatars/user.png"
 }
 
 ### User Login
+
 POST http://localhost:4000/auth/login
 Content-Type: application/json
 
@@ -21,6 +23,7 @@ Content-Type: application/json
 }
 
 ### User logout
+
 GET http://localhost:4000/auth/logout
 
 
