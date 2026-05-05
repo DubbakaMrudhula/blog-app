@@ -13,8 +13,8 @@ config();
 const app = exp();
 //enable cors
 app.use(cors({
-  origin:['http://localhost:5173','https://blog-app-weld-alpha.vercel.app'],
-  credentials:true
+  origin: true,
+  credentials: true
 }))
 //add cookie parser middeleware
 app.use(cookieParser())
