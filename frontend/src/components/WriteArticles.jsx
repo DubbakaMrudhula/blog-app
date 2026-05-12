@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import axios from "axios";
+import { getBackendUrl } from "../utils/url";
 import {toast} from 'react-hot-toast'
 import { useNavigate } from "react-router";
 
@@ -38,7 +39,7 @@ function WriteArticles() {
       //set loading true
       setLoading(true);
       //make POST req to save new article
-      let res = await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/author-api/article`, articleObj, {
+      let res = await axios.post(`${getBackendUrl()}/author-api/article`, articleObj, {
         withCredentials: true,
       });
       //navigate to AuthorArticles

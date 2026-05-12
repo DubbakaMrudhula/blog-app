@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
 import axios from "axios";
+import { getBackendUrl } from "../utils/url";
 
 
 import {
@@ -44,7 +45,7 @@ function EditArticle() {
     modifiedArticle.articleId=article._id;
     //make PUT req to update article
     let res = await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/author-api/articles`,
+      `${getBackendUrl()}/author-api/articles`,
       modifiedArticle,
       { withCredentials: true },
     );

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import { getBackendUrl } from "../utils/url";
 
 const extractError = (err, defaultMsg) => {
   let msg = err.response?.data?.message || err.response?.data?.error || err.message || defaultMsg;
@@ -20,7 +21,7 @@ export const useAuth = create((set) => ({
       //set loading true
       set({ loading: true, currentUser: null, isAuthenticated: false, error: null });
       //make api call
-      let res = await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/auth/login`, userCred, {
+      let res = await axios.post(`${getBackendUrl()}/auth/login`, userCred, {
         withCredentials: true,
       });
       //update state
@@ -47,7 +48,7 @@ export const useAuth = create((set) => ({
     try {
       //set loading state
       //make logout api req
-      let res = await axios.get(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/auth/logout`, {
+      let res = await axios.get(`${getBackendUrl()}/auth/logout`, {
         withCredentials: true,
       });
       //update state
@@ -71,14 +72,7 @@ export const useAuth = create((set) => ({
   // restore login
   checkAuth: async () => {
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL;
-      if (!backendUrl) {
-        console.error("VITE_BACKEND_URL is not set!");
-        set({ loading: false, isAuthenticated: false, currentUser: null });
-        return;
-      }
-      set({ loading: true });
-      const res = await axios.get(`${backendUrl.replace(/\/$/, "")}/auth/check-auth`, { withCredentials: true });
+      const res = await axios.get(`${getBackendUrl()}/auth/check-auth`, { withCredentials: true });
 
       // Validate that response has actual user data
       if (res.data?.payload && res.data?.message === "authenticated") {

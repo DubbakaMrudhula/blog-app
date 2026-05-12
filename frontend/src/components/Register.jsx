@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
+import { getBackendUrl } from "../utils/url";
 
 function Register() {
   const {
@@ -48,7 +49,7 @@ function Register() {
       //start loading
       setLoading(true);
       //make HTTP POST req to create User in backend
-      let res = await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/auth/users`, formData, {
+      let res = await axios.post(`${getBackendUrl()}/auth/users`, formData, {
         withCredentials: true,
       });
 

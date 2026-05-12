@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { getBackendUrl } from "../utils/url";
 import { useNavigate } from "react-router";
 import { useAuth } from "../store/authStore";
 
@@ -33,7 +34,7 @@ function AuthorArticles() {
       try {
         setLoading(true);
         //read articles of current author
-        let res = await axios.get(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/author-api/articles`, {
+        let res = await axios.get(`${getBackendUrl()}/author-api/articles`, {
           withCredentials: true,
         });
         if (res.status === 200) {

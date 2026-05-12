@@ -1,6 +1,7 @@
 import { useParams, useLocation, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { getBackendUrl } from "../utils/url";
 import { useAuth } from "../store/authStore";
 import {
   articlePageWrapper,
@@ -50,7 +51,7 @@ function ArticleByID() {
       setLoading(true);
 
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/user-api/article/${id}`, {
+        const res = await axios.get(`${getBackendUrl()}/user-api/article/${id}`, {
           withCredentials: true,
         });
 
@@ -82,7 +83,7 @@ function ArticleByID() {
 
     try {
       const res = await axios.patch(
-        `${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/author-api/articles`,
+        `${getBackendUrl()}/author-api/articles`,
         { articleId: article._id, isArticleActive: newStatus },
         { withCredentials: true },
       );
@@ -116,7 +117,7 @@ function ArticleByID() {
     //add artcileId
     commentObj.articleId = article._id;
     console.log(commentObj);
-    let res = await axios.put(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/user-api/articles`, commentObj, {
+    let res = await axios.put(`${getBackendUrl()}/user-api/articles`, commentObj, {
       withCredentials: true,
     });
     if (res.status === 200) {
