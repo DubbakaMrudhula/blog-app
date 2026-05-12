@@ -20,7 +20,9 @@ export const useAuth = create((set) => ({
       //set loading true
       set({ loading: true, currentUser: null, isAuthenticated: false, error: null });
       //make api call
-      let res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/auth/login", userCred, { withCredentials: true });
+      let res = await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/auth/login`, userCred, {
+        withCredentials: true,
+      });
       //update state
       if (res.status === 200) {
         set({
@@ -45,7 +47,9 @@ export const useAuth = create((set) => ({
     try {
       //set loading state
       //make logout api req
-      let res = await axios.get(import.meta.env.VITE_BACKEND_URL + "/auth/logout", { withCredentials: true });
+      let res = await axios.get(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/auth/logout`, {
+        withCredentials: true,
+      });
       //update state
       if (res.status === 200) {
         set({
@@ -74,7 +78,7 @@ export const useAuth = create((set) => ({
         return;
       }
       set({ loading: true });
-      const res = await axios.get(backendUrl + "/auth/check-auth", { withCredentials: true });
+      const res = await axios.get(`${backendUrl.replace(/\/$/, "")}/auth/check-auth`, { withCredentials: true });
 
       // Validate that response has actual user data
       if (res.data?.payload && res.data?.message === "authenticated") {

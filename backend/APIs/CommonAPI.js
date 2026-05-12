@@ -11,6 +11,12 @@ import { uploadToCloudinary } from "../config/cloudinaryUpload.js";
 import cloudinary from "../config/cloudinary.js";
 config();
 
+//Request logging middleware
+commonApp.use((req, res, next) => {
+  console.log("HIT:", req.method, req.url);
+  next();
+});
+
 //Route for register
 commonApp.post("/users", upload.single("profileImageUrl"), async (req, res, next) => {
   let cloudinaryResult;
