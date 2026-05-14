@@ -51,7 +51,7 @@ function AuthorArticles() {
 
     getAuthorArticles();
   }, [user]);
-
+                                       
   const openArticle = (article) => {
     navigate(`/article/${article._id}`, {
       state: article,
